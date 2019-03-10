@@ -1,13 +1,13 @@
 Coins = {
-        500: 10,
+        500: 1,
         200: 10,
         100: 10,
-        50: 2,
-        20: 0,
+        50: 10,
+        20: 10,
         10: 10,
-        5: 10,
-        2: 10,
-        1: 10
+        5: 1000,
+        2: 1000,
+        1: 1000
     }
 Products = {
     "Cola":120,
@@ -44,15 +44,16 @@ WriteProducts()
 selectProduct = Products.get(input('Wybierz produkt: '))
 rest = int(customerMoney) - int(selectProduct)
 EmptyCoins()
-highestCoin = max(s for s in Coins.keys() if s < rest if s in money) #znajduje pierwsza najwieksza liczbe mniejsza od reszty
-numberOfCoins = Coins[highestCoin] #patrze ile razy moge jej użyć
+highestCoin = max(s for s in Coins.keys() if s <= rest if s in money) #znajduje pierwsza najwieksza liczbe mniejsza od reszty
 money.remove(highestCoin) #usuwam ją z listy
+numberOfCoins = Coins[highestCoin] #patrze ile razy moge jej użyć
 
-if highestCoin*numberOfCoins > rest:
-    while highestCoin*numberOfCoins > rest: #zmienjszam jej mnożnik az bedzie mniejsza od reszty
+if highestCoin > rest:
+    while highestCoin*numberOfCoins >= rest: #zmienjszam jej mnożnik az bedzie mniejsza od reszty
         numberOfCoins -= 1
-    solutions = [s for s in change(rest, money, [highestCoin]*numberOfCoins)] #dodaje do poczatkowej listy jej wartość tyle razy ile może sie w niej znaleźć
-else:
+    solutions = [s for s in change(rest, money, [highestCoin]*numberOfCoins)]    #dodaje do poczatkowej listy jej wartość tyle razy ile może sie w niej znaleźć
+elif highestCoin < rest:
     solutions = [s for s in change(rest,money,[highestCoin]*numberOfCoins)]
-
-print("Reszta: ",rest," = ",min(solutions,key=len),"gr")
+else:
+    solutions = [s for s in change(rest, money,[highestCoin])]
+print("Reszta: ", rest, " = ", min(solutions, key=len), "gr")
