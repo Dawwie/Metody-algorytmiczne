@@ -2,8 +2,8 @@ Coins = {
         500: 10,
         200: 10,
         100: 10,
-        50: 10,
-        20: 10,
+        50: 2,
+        20: 0,
         10: 10,
         5: 10,
         2: 10,
@@ -17,10 +17,14 @@ Products = {
     "Orzeszki":170
             }
 money = [500,200,100,50,20,10,5,2,1]
-empty = [] #lista na nominały których nie ma w automacie
 def WriteProducts():
     for p, q in Products.items():
         print(p, q, "gr")
+
+def EmptyCoins(): # Jeżeli nie ma jakiegoś nominału w automacie to dodaje do listy
+    for p in Coins.keys():
+        if Coins[p] == 0:
+            money.remove(p)
 
 def change(n,available_coins,coins_so_far):
     if sum(coins_so_far) == n:
@@ -39,11 +43,17 @@ customerMoney = input('Podaj sumę pieniędzy, które chcesz wrzucić: ')
 WriteProducts()
 selectProduct = Products.get(input('Wybierz produkt: '))
 rest = int(customerMoney) - int(selectProduct)
-for p in Coins.keys(): # Jeżeli nie ma jakiegoś nominału w automacie to dodaje do listy
-    if Coins[p] == 0:
-        money.remove(p)
+EmptyCoins()
+highestCoin = max(s for s in Coins.keys() if s < rest if s in money) #znajduje pierwsza najwieksza liczbe mniejsza od reszty
+numberOfCoins = Coins[highestCoin] #patrze ile razy moge jej użyć
+money.remove(highestCoin) #usuwam ją z listy
 
-solutions = [s for s in change(rest,money,[])]
+if highestCoin*numberOfCoins > rest:
+    while highestCoin*numberOfCoins > rest: #zmienjszam jej mnożnik az bedzie mniejsza od reszty
+        numberOfCoins -= 1
+    solutions = [s for s in change(rest, money, [highestCoin]*numberOfCoins)] #dodaje do poczatkowej listy jej wartość tyle razy ile może sie w niej znaleźć
+else:
+    solutions = [s for s in change(rest,money,[highestCoin]*numberOfCoins)]
 
 print("Reszta: ",rest," = ",min(solutions,key=len),"gr")
 
