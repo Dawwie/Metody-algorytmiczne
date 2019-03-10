@@ -56,4 +56,3 @@ else:
     solutions = [s for s in change(rest,money,[highestCoin]*numberOfCoins)]
 
 print("Reszta: ",rest," = ",min(solutions,key=len),"gr")
-
