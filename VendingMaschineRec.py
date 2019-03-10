@@ -49,11 +49,11 @@ money.remove(highestCoin) #usuwam ją z listy
 numberOfCoins = Coins[highestCoin] #patrze ile razy moge jej użyć
 
 if highestCoin > rest:
-    while highestCoin*numberOfCoins >= rest: #zmienjszam jej mnożnik az bedzie mniejsza od reszty
+    while highestCoin*numberOfCoins > rest: #zmienjszam jej mnożnik az bedzie mniejsza od reszty
         numberOfCoins -= 1
     solutions = [s for s in change(rest, money, [highestCoin]*numberOfCoins)]    #dodaje do poczatkowej listy jej wartość tyle razy ile może sie w niej znaleźć
 elif highestCoin < rest:
-    solutions = [s for s in change(rest,money,[highestCoin]*numberOfCoins)]
+    solutions = [s for s in change(rest,money,[highestCoin])]
 else:
     solutions = [s for s in change(rest, money,[highestCoin])]
 print("Reszta: ", rest, " = ", min(solutions, key=len), "gr")
