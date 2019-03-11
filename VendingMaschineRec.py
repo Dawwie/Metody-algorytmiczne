@@ -2,7 +2,7 @@ Coins = {
         500: 1,
         200: 10,
         100: 10,
-        50: 10,
+        50: 0,
         20: 10,
         10: 10,
         5: 1000,
@@ -29,6 +29,8 @@ def EmptyCoins(): # Jeżeli nie ma jakiegoś nominału w automacie usuwa z listy
 
 def beginCoins(allCoins,firstCoin,n):
     count = 0
+    if allCoins == firstCoin:
+        return 1
     for i in range(n):
         allCoins -= firstCoin
         if allCoins > 0:
