@@ -24,14 +24,34 @@ def divisorGenerator(n):
 
 real = [int(x) for x in input("Liczby rzeczywiste: ").split()]
 
-l = list(divisorGenerator(int(real[-1])))# dzielniki wyrazu wolnego
-m = list(divisorGenerator(int(real[0]))) # dzielniki wyrazu przy najwyższej potędze
+l = list(divisorGenerator(int(real[-1])))  # dzielniki wyrazu wolnego
+m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwyższej potędze
 
-divisors_of_free_word = list(zip(l, addOpposed(l)))
 divisors_of_highest_power = list(zip(m, addOpposed(m)))
-print("Dzielniki wyrazu przy najwyższej potędze ->",divisors_of_highest_power)
+divisors_of_free_word = list(zip(l, addOpposed(l)))
+print("Dzielniki wyrazu przy najwyższej potędze ->", divisors_of_highest_power)
 print("Dzielniki wyrazu wolnego ->", divisors_of_free_word)
 
+empty = []
+for i in l:
+    empty.append(i * -1)
+l.extend(empty)
+l.sort()
+#print(l)
 
-list_free = l.extend(addOpposed(l))
-list_Highest = m.extend(addOpposed(m))
+empty = []
+for i in m:
+    empty.append(i * -1)
+m.extend(empty)
+m.sort()
+#print(m)
+
+list_of_fractions = []
+for i in l:
+    for j in m:
+        x = i/j
+        list_of_fractions.append(x)
+
+no_duplicates = list(set(list_of_fractions))
+print("Wszystkie możliwe ułamki ->",no_duplicates)
+
