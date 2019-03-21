@@ -23,7 +23,6 @@ def divisorGenerator(n):
         yield divisor
 
 real = [int(x) for x in input("Liczby rzeczywiste: ").split()]
-
 l = list(divisorGenerator(int(real[-1])))  # dzielniki wyrazu wolnego
 m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwyższej potędze
 
@@ -55,3 +54,10 @@ for i in l:
 no_duplicates = list(set(list_of_fractions))
 print("Wszystkie możliwe ułamki ->",no_duplicates)
 
+list_of_scores = []
+for i in no_duplicates:
+    score = np.polyval(real, i)
+    list_of_scores.append(score)
+    if score == 0:
+        print("Pierwiastek/-ki wielomianu: ",i)
+#dodac sprawdzanie krotnosci pierwiastka
