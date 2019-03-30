@@ -1,5 +1,7 @@
 import math
+import string as s
 import numpy as np
+import fractions as fra
 from pip._vendor.msgpack.fallback import xrange
 
 
@@ -14,6 +16,8 @@ def addOpposed(divisors_list):
 
 def divisorGenerator(n):
     large_divisors = []
+    if n < 0:
+        n *= -1
     for i in xrange(1, int(math.sqrt(n) + 1)):
         if n % i == 0:
             yield i
@@ -49,15 +53,19 @@ list_of_fractions = []
 for i in l:
     for j in m:
         x = i/j
-        list_of_fractions.append(x)
+        list_of_fractions.append(round(x,1))
 
 no_duplicates = list(set(list_of_fractions))
 print("Wszystkie możliwe ułamki ->",no_duplicates)
 
 list_of_scores = []
+print("\nPierwiastek/-ki wielomianu:",end='')
 for i in no_duplicates:
     score = np.polyval(real, i)
-    list_of_scores.append(score)
     if score == 0:
-        print("Pierwiastek/-ki wielomianu: ",i)
+        print("(x - (%s))" % fra.Fraction(i),end='')
+        list_of_scores.append(i)
+    elif score != 0 and score in list_of_scores:
+        print("\nPierwiastek %s jest pierwiastkiem %s krotnym " % (fra.Fraction(i), no_duplicates.count(i)+1))
+print(list_of_scores)
 #dodac sprawdzanie krotnosci pierwiastka
