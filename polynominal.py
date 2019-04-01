@@ -26,6 +26,7 @@ def divisorGenerator(n):
     for divisor in reversed(large_divisors):
         yield divisor
 
+
 real = [int(x) for x in input("Liczby rzeczywiste: ").split()]
 l = list(divisorGenerator(int(real[-1])))  # dzielniki wyrazu wolnego
 m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwyższej potędze
@@ -52,20 +53,17 @@ m.sort()
 list_of_fractions = []
 for i in l:
     for j in m:
-        x = i/j
-        list_of_fractions.append(round(x,1))
+         list_of_fractions.append(fra.Fraction(int(i),int(j)))
 
 no_duplicates = list(set(list_of_fractions))
-print("Wszystkie możliwe ułamki ->",no_duplicates)
+print("Wszystkie możliwe ułamki ->","; ".join('%s' % item for item in no_duplicates))
 
 list_of_scores = []
 print("\nPierwiastek/-ki wielomianu:",end='')
 for i in no_duplicates:
     score = np.polyval(real, i)
     if score == 0:
-        print("(x - (%s))" % fra.Fraction(i),end='')
+        print("(x - ({}))".format(fra.Fraction(i),end=''))
         list_of_scores.append(i)
-    elif score != 0 and score in list_of_scores:
-        print("\nPierwiastek %s jest pierwiastkiem %s krotnym " % (fra.Fraction(i), no_duplicates.count(i)+1))
-print(list_of_scores)
-#dodac sprawdzanie krotnosci pierwiastka
+    #elif score != 0 and score in list_of_scores:
+      #  print("\nPierwiastek {} jest pierwiastkiem {} krotnym ".format(fra.Fraction(i), no_duplicates.count(i)+1))
