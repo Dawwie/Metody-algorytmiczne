@@ -1,19 +1,25 @@
 import math
-import string as s
 import numpy as np
 import fractions as fra
 from pip._vendor.msgpack.fallback import xrange
 
+# Jeżeli wyraz wolny jest zerem
+def IfZero(x):
+    for item in reversed(x):
+        if item == 0:
+            x.pop()
+        elif item != 0:
+            break
+    return x
 
-def poly(divisors_list,real_numbers):
-    np.polyval()
-
+# Dodaje wyrazy przeciwne
 def addOpposed(divisors_list):
     empty = []
     for x in divisors_list:
         empty.append(x*-1)
     return empty
 
+# generuje dzielniki danej liczby
 def divisorGenerator(n):
     large_divisors = []
     if n < 0:
@@ -27,33 +33,31 @@ def divisorGenerator(n):
         yield divisor
 
 
-real = [int(x) for x in input("Liczby rzeczywiste: ").split()]
+real = [int(x) for x in input("Liczby rzeczywiste: ").split()] # wejscie
+IfZero(real)
+
 l = list(divisorGenerator(int(real[-1])))  # dzielniki wyrazu wolnego
 m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwyższej potędze
 
-divisors_of_highest_power = list(zip(m, addOpposed(m)))
-divisors_of_free_word = list(zip(l, addOpposed(l)))
-print("Dzielniki wyrazu przy najwyższej potędze ->", divisors_of_highest_power)
-print("Dzielniki wyrazu wolnego ->", divisors_of_free_word)
+print("Dzielniki wyrazu przy najwyższej potędze ->", list(zip(m, addOpposed(m))))
+print("Dzielniki wyrazu wolnego ->", list(zip(l, addOpposed(l))))
 
 empty = []
 for i in l:
     empty.append(i * -1)
 l.extend(empty)
 l.sort()
-#print(l)
 
 empty = []
 for i in m:
     empty.append(i * -1)
 m.extend(empty)
 m.sort()
-#print(m)
 
 list_of_fractions = []
 for i in l:
     for j in m:
-         list_of_fractions.append(fra.Fraction(int(i),int(j)))
+         list_of_fractions.append(fra.Fraction(int(i),int(j))) #
 
 no_duplicates = list(set(list_of_fractions))
 print("Wszystkie możliwe ułamki ->","; ".join('%s' % item for item in no_duplicates))
@@ -63,7 +67,7 @@ print("\nPierwiastek/-ki wielomianu:",end='')
 for i in no_duplicates:
     score = np.polyval(real, i)
     if score == 0:
-        print("(x - ({}))".format(fra.Fraction(i),end=''))
+        print("(x - ({}))".format(fra.Fraction(i)),end='')
         list_of_scores.append(i)
     #elif score != 0 and score in list_of_scores:
       #  print("\nPierwiastek {} jest pierwiastkiem {} krotnym ".format(fra.Fraction(i), no_duplicates.count(i)+1))
