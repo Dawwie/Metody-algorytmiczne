@@ -69,5 +69,4 @@ for i in no_duplicates:
     if score == 0:
         print("(x - ({}))".format(fra.Fraction(i)),end='')
         list_of_scores.append(i)
-    #elif score != 0 and score in list_of_scores:
-      #  print("\nPierwiastek {} jest pierwiastkiem {} krotnym ".format(fra.Fraction(i), no_duplicates.count(i)+1))
+
