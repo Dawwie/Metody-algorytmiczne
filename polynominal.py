@@ -3,7 +3,7 @@ import numpy as np
 import fractions as fra
 from pip._vendor.msgpack.fallback import xrange
 
-# Jeżeli wyraz wolny jest zerem
+# Je?eli wyraz wolny jest zerem
 def IfZero(x):
     for item in reversed(x):
         if item == 0:
@@ -37,7 +37,7 @@ real = [int(x) for x in input("Liczby rzeczywiste: ").split()] # wejscie
 IfZero(real)
 
 l = list(divisorGenerator(int(real[-1])))  # dzielniki wyrazu wolnego
-m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwyższej potędze
+m = list(divisorGenerator(int(real[0])))  # dzielniki wyrazu przy najwy?szej pot?dze
 
 print("Dzielniki wyrazu przy najwyższej potędze ->", list(zip(m, addOpposed(m))))
 print("Dzielniki wyrazu wolnego ->", list(zip(l, addOpposed(l))))
@@ -63,10 +63,24 @@ no_duplicates = list(set(list_of_fractions))
 print("Wszystkie możliwe ułamki ->","; ".join('%s' % item for item in no_duplicates))
 
 list_of_scores = []
-print("\nPierwiastek/-ki wielomianu:",end='')
+print("\nPierwiastek/-ki wielomianu:", end='')
 for i in no_duplicates:
     score = np.polyval(real, i)
     if score == 0:
-        print("(x - ({}))".format(fra.Fraction(i)),end='')
+        print("(x - ({}))".format(fra.Fraction(i)), end='')
         list_of_scores.append(i)
+print('\n')
+
+multiples = []
+for i in range (len(list_of_scores)):
+    count = 1
+    x = list_of_scores.pop()
+    for j in range(len(real)):
+        derivative = np.polyder(real)
+        real = derivative
+        if len(derivative) > 0:
+            eq_zero = np.polyval(derivative, x)
+            if eq_zero == 0:
+                count += 1
+    print("Pierwiastek {} jest {} krotny".format(fra.Fraction(x), count))
 
